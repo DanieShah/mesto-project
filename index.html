@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./pages/index.css">
+  <title>Mesto</title>
+</head>
+<body class="page">
+  <header class="header">
+    <img class="header__logo" src="./images/logo.svg" alt="logo">
+  </header>
+  <main>
+    <section class="profile">
+      <div class="profile__info">
+        <img class="profile__avatar" src="./images/image.png" alt="Avatar">
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button type="button" class="profile__edit-button">
+          <img src="./images/icon/pen.svg" alt="pen">
+        </button>
+        <p class="profile__description">Исследователь океана</p>
+      </div>
+      <button class="profile__button" type="button">
+        <img src="./images/icon/plus.svg" alt="plus" class="profile__plus">
+      </button>
+    </section>
+    <section class="elements">
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__text">© 2020 Mesto Russia</p>
+  </footer>
+  <section id="popup-profile" class="popup">
+    <form name="popup-container" class="popup__container">
+      <fieldset class="popup__profile">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <input id="popup-name" name="popup-name" type="text" value="Жак-Ив Кусто" class="popup__text-field" required>
+        <input id="popup-profession" name="popup-profession" type="text" value="Исследователь океана" class="popup__text-field" required>
+        <button type="submit" class="popup__button">Сохранить</button>
+        <button type="button" id="popup-close" class="popup__close"></button>
+      </fieldset>
+    </form>
+  </section>
+  <section id="popup-img" class="popup">
+    <form name="popup-container" class="popup__container">
+      <fieldset class="popup__profile">
+        <h3 class="popup__title">Новое место</h3>
+        <input id="popup-place" name="popup-place-name" type="text" placeholder="Название" required class="popup__text-field">
+        <input id="popup-link" name="popup-place-link" type="text" placeholder="Ссылка на место" required class="popup__text-field">
+        <button type="submit" class="popup__button">Сохранить</button>
+        <button type="button" id="popup-img-close" class="popup__close"></button>
+      </fieldset>
+    </form>
+  </section>
+  <section id="popup-full-img" class="popup">
+    <div class="popup__box">
+      <img src="https://traveltimes.ru/wp-content/uploads/2022/08/65f6681s-1920.jpg" class="popup__image" alt="Изображение">
+      <h2 class="popup__signa">Проверка</h2>
+      <button type="button" id="popup-fullsize-close" class="popup__close"></button>
+    </div>
+  </section>
+  <template id="element">
+    <div class="element">
+      <img src="" alt="Изображение" class="element__img">
+      <button type="button" class="element__trash"></button>
+      <div class="element__description">
+        <h2 class="element__text"></h2>
+        <button type="button" class="element__like"></button>
+      </div>
+    </div>
+  </template>
+  <script src="script.js"></script>
+</body>
+</html>

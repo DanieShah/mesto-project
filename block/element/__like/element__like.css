@@ -1,0 +1,33 @@
+.element__like {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    height: 22px;
+    width: 19px;
+    background-color: #00000000;
+    background-image: url(../../../images/icon/Vector.svg);
+    background-size: 19px 22px;
+    cursor: pointer;
+}
+
+.element__like:hover {
+    opacity: .6;
+}
+
+
+
+@media all and (max-width: 890px) {
+    .element__like {
+        height: 2.5vw;
+        width: 2.1vw;
+        background-size: 2.1vw 2.5vw;
+    }
+}
+
+@media all and (max-width: 890px) {
+    .element__like {
+        height: 22px;
+        width: 19px;
+        background-size: 19px 22px;
+    }
+}
