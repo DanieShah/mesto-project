@@ -1,28 +1,32 @@
 /* Открытие попапа с профилем */
 const popupProfile = document.querySelector('#popup-profile');
 const popupProfileForm = document.querySelector('#popup-profile-form');
-const popupImgForm = document.querySelector('#popup-img-form');
+const formPopupFullSizeImage = document.querySelector('#popup-img-form');
 const editButton = document.querySelector('.profile__edit-button');
 const buttonClosePopupProfile = document.querySelector('.popup__close');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__description');
 const bigImage = document.querySelector('.popup__image');
-const popupSigma = document.querySelector('.popup__signa');
+const titlePopupFullSizeImage = document.querySelector('.popup__signa');
 const nameInput = popupProfile.querySelector('#popup-name');
 const jobInput = popupProfile.querySelector('#popup-profession');
 
 
 function openPopup(popup) {
-   nameInput.value = profileName.textContent;
-   jobInput.value = profileJob.textContent;
     popup.classList.add('popup_opened');
+}
+
+function openProfilePopup(popup){
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+  openPopup(popup);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
 
-editButton.addEventListener('click', () => openPopup(popupProfile));
+editButton.addEventListener('click', () => openProfilePopup(popupProfile));
 buttonClosePopupProfile.addEventListener('click', () => closePopup(popupProfile));
 
 /* Изменение данных профиля */
@@ -91,8 +95,8 @@ function addElements(nameElement, linkElement) {
     
     function openFullSizeImage() {
       bigImage.src = smallImage.src;
-      popupSigma.textContent = elSigma.textContent;
-      popupFullSizeImage.classList.add('popup_opened');
+      titlePopupFullSizeImage.textContent = elSigma.textContent;
+      openPopup(popupFullSizeImage);
     }
     
     smallImage.addEventListener('click', openFullSizeImage);
@@ -130,10 +134,8 @@ function forSubmitImgHandler(evt) {
     closePopup(popupAddNewCard);
 }
 
-popupImgForm.addEventListener('submit', forSubmitImgHandler);
+formPopupFullSizeImage.addEventListener('submit', forSubmitImgHandler);
 
 
 const closeFullSizeButton = document.querySelector('#popup-fullsize-close');
-closeFullSizeButton.addEventListener('click', function () {
-  popupFullSizeImage.classList.remove('popup_opened');
-});
+closeFullSizeButton.addEventListener('click', () => closePopup(popupFullSizeImage));
