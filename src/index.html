@@ -4,25 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="./pages/index.css">
   <title>Mesto</title>
 </head>
 <body class="page">
   <header class="header">
-    <img class="header__logo" src="./images/logo.svg" alt="logo">
+    <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="logo">
   </header>
   <main>
     <section class="profile">
       <div class="profile__info">
-        <img class="profile__avatar" src="./images/image.png" alt="Avatar">
+        <img class="profile__avatar" src="<%=require('./images/image.png')%>" alt="Avatar">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button type="button" class="profile__edit-button">
-          <img src="./images/icon/pen.svg" alt="pen">
+          <img src="<%=require('./images/icon/pen.svg')%>" alt="pen">
         </button>
         <p class="profile__description">Исследователь океана</p>
       </div>
       <button class="profile__button" type="button">
-        <img src="./images/icon/plus.svg" alt="plus" class="profile__plus">
+        <img src="<%=require('./images/icon/plus.svg')%>" alt="plus" class="profile__plus">
       </button>
     </section>
     <section class="elements">
@@ -32,22 +31,26 @@
     <p class="footer__text">© 2020 Mesto Russia</p>
   </footer>
   <section id="popup-profile" class="popup">
-    <form name="popup-container" id="popup-profile-form" class="popup__container">
+    <form name="popupProfile" id="popup-profile-form" class="popup__container" novalidate>
       <fieldset class="popup__profile">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input id="popup-name" name="popup-name" type="text" placeholder="Имя-Фамилия" class="popup__text-field" required>
-        <input id="popup-profession" name="popup-profession" type="text" placeholder="Профессия" class="popup__text-field" required>
+        <input id="popup-name" name="inputName" type="text" placeholder="Имя-Фамилия" value=" " class="popup__input" minlength="2" maxlength="40" pattern="^[a-zA-ZА-Яа-яЁё\s\-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
+        <span class="popup__input-error popup-name-error"></span>
+        <input id="popup-profession" name="inputJob" type="text" placeholder="Профессия" value=" " class="popup__input" minlength="2" maxlength="200" pattern="^[a-zA-ZА-Яа-яЁё\s\-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required>
+        <span class="popup__input-error popup-profession-error"></span>
         <button type="submit" class="popup__button">Сохранить</button>
       </fieldset>
       <button type="button" id="popup-close" class="popup__close"></button>
     </form>
   </section>
   <section id="popup-img" class="popup">
-    <form name="popup-container" id="popup-img-form" class="popup__container">
+    <form name="popupImg" id="popup-img-form" class="popup__container" novalidate>
       <fieldset class="popup__profile">
         <h3 class="popup__title">Новое место</h3>
-        <input id="popup-place" name="popup-place-name" type="text" placeholder="Название" required class="popup__text-field">
-        <input id="popup-link" name="popup-place-link" type="text" placeholder="Ссылка на место" required class="popup__text-field">
+        <input id="popup-place" name="popup-place-name" type="text" placeholder="Название" minlength="2" maxlength="40" pattern="^[a-zA-ZА-Яа-яЁё\s\-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" required class="popup__input">
+        <span class="popup__input-error popup-place-error"></span>
+        <input id="popup-link" name="popup-place-link" type="url" placeholder="Ссылка на место" required class="popup__input">
+        <span class="popup__input-error popup-link-error"></span>
         <button type="submit"  class="popup__button">Сохранить</button>
       </fieldset>
       <button type="button" id="popup-img-close" class="popup__close"></button>
@@ -70,6 +73,5 @@
       </div>
     </div>
   </template>
-  <script src="./scripts/index.js"></script>
 </body>
 </html>
