@@ -1,8 +1,8 @@
-import './styles/index.css';
-import { popupProfile, popupProfileForm, editButton, buttonClosePopupProfile, openProfilePopup, changeUserData, popupAddNewCard, editImgButton, buttonClosePopupFullSizeImage, forSubmitImgHandler, closeFullSizeButton, formPopupFullSizeImage, popupFullSizeImage, popupBox} from './components/modal.js';
-import { initialCards, renderCard} from './components/card.js';
-import { openPopup, closePopup} from './components/utils.js';
-import { enableValidation } from './components/validate.js'
+import './index.css';
+import { popupProfile, popupProfileForm, editButton, buttonClosePopupProfile, openProfilePopup, changeUserData, popupAddNewCard, editImgButton, buttonClosePopupFullSizeImage, forSubmitImgHandler, closeFullSizeButton, formPopupFullSizeImage, popupFullSizeImage, popupBox} from '../components/modal.js';
+import { initialCards, renderCard} from '../components/card.js';
+import { openPopup, closePopup} from '../components/utils.js';
+import { enableValidation } from '../components/validate.js'
 
 popupProfileForm.addEventListener('submit', changeUserData);
 

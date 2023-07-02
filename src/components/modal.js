@@ -15,9 +15,18 @@ export const linkInput = document.querySelector('#popup-link');
 export const closeFullSizeButton = document.querySelector('#popup-fullsize-close');
 export const popupFullSizeImage = document.querySelector('#popup-full-img');
 export const popupBox = document.querySelector('.popup__box');
+export const settingsForValidation = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
 
 import { openPopup, closePopup } from "./utils";
 import { renderCard } from "./card";
+import { enableValidation } from "./validate.js"
 
 export function openProfilePopup(popup){
   nameInput.value = profileName.textContent;
@@ -39,7 +48,7 @@ export function forSubmitImgHandler(evt) {
     const placeInputValue = placeInput.value;
     const linkInputValue = linkInput.value;
     renderCard(placeInputValue, linkInputValue);
-    placeInput.value = '';
-    linkInput.value = '';
+    formPopupFullSizeImage.reset();
+    enableValidation(settingsForValidation);
     closePopup(popupAddNewCard);
 }

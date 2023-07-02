@@ -1,16 +1,28 @@
-export function openPopup(popup) {
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Escape') {
-            closePopup(popup);
-        }
+function closingPopupByPressingEscButton (evt) {
+    const popup = Array.from(document.querySelectorAll('.popup'));
+    popup.forEach((element) => {
+      if (evt.key === 'Escape') {
+         closePopup(element);
+      }
     });
-    popup.addEventListener('click', (evt) => {
+    document.removeEventListener('keydown', closingPopupByPressingEscButton);
+};
+
+function closingPopupByClickOnOverlay (evt) {
+    const popup = Array.from(document.querySelectorAll('.popup'));
+    popup.forEach((element) => {
         if (evt.currentTarget === evt.target) {
-            closePopup(popup);
+            closePopup(element);
+            element.removeEventListener('click', closingPopupByClickOnOverlay);
         }
     });
 }
+
+export function openPopup(popup) {
+    popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closingPopupByPressingEscButton);
+    popup.addEventListener('click', closingPopupByClickOnOverlay);
+};
 
 export function closePopup(popup) {
     popup.classList.remove('popup_opened');
