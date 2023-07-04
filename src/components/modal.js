@@ -47,9 +47,8 @@ export function forSubmitImgHandler(evt) {
     evt.preventDefault();
     const placeInputValue = placeInput.value;
     const linkInputValue = linkInput.value;
-    const formPopup = document.querySelector('#popup-img')
-    const inputList = Array.from(formPopup.querySelectorAll('.popup__input'));
-    const submitButton = formPopup.querySelector('.popup__button');
+    const inputList = Array.from(popupAddNewCard.querySelectorAll('.popup__input'));
+    const submitButton = popupAddNewCard.querySelector('.popup__button');
     renderCard(placeInputValue, linkInputValue);
     formPopupFullSizeImage.reset();
     toggleButtonState(inputList, submitButton, settingsForValidation);

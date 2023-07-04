@@ -14,8 +14,6 @@ function closingPopupByPressingEscButton (evt) {
     if (evt.key === 'Escape') {
         const popup = document.querySelector('.popup_opened');
         closePopup(popup);
-        popup.removeEventListener('click', closingPopupByClickOnOverlay);
-        document.removeEventListener('keydown', closingPopupByPressingEscButton);
     }
 };
 
@@ -24,7 +22,5 @@ function closingPopupByClickOnOverlay (evt) {
     if (evt.currentTarget === evt.target) {
         const popup = document.querySelector('.popup_opened');
         closePopup(popup);
-        popup.removeEventListener('click', closingPopupByClickOnOverlay);
-        document.removeEventListener('keydown', closingPopupByPressingEscButton);
     }
 };
