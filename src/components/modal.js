@@ -26,7 +26,7 @@ export const settingsForValidation = {
 
 import { openPopup, closePopup } from "./utils";
 import { renderCard } from "./card";
-import { enableValidation } from "./validate.js"
+import { toggleButtonState } from "./validate.js"
 
 export function openProfilePopup(popup){
   nameInput.value = profileName.textContent;
@@ -47,8 +47,11 @@ export function forSubmitImgHandler(evt) {
     evt.preventDefault();
     const placeInputValue = placeInput.value;
     const linkInputValue = linkInput.value;
+    const formPopup = document.querySelector('#popup-img')
+    const inputList = Array.from(formPopup.querySelectorAll('.popup__input'));
+    const submitButton = formPopup.querySelector('.popup__button');
     renderCard(placeInputValue, linkInputValue);
     formPopupFullSizeImage.reset();
-    enableValidation(settingsForValidation);
+    toggleButtonState(inputList, submitButton, settingsForValidation);
     closePopup(popupAddNewCard);
 }
