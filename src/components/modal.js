@@ -15,6 +15,13 @@ export const linkInput = document.querySelector('#popup-link');
 export const closeFullSizeButton = document.querySelector('#popup-fullsize-close');
 export const popupFullSizeImage = document.querySelector('#popup-full-img');
 export const popupBox = document.querySelector('.popup__box');
+export const avatar = document.querySelector('.profile__avatar');
+export const avatarImg = avatar.querySelector('.profile__avatar-img');
+export const avatarButton = avatar.querySelector('.profile__avatar-button');
+export const popupAvatar = document.querySelector('#popup-avatar');
+export const popupAvatarForm = popupAvatar.querySelector('#popup-avatar-form');
+export const buttonCloseAvatarPopup = document.querySelector('#popup-avatar-close');
+export const inputAvatarLink = document.querySelector('#input-avatar');
 export const settingsForValidation = {
   formSelector: '.popup__container',
   inputSelector: '.popup__input',
@@ -25,8 +32,18 @@ export const settingsForValidation = {
 }
 
 import { openPopup, closePopup } from "./utils";
-import { renderCard } from "./card";
-import { toggleButtonState } from "./validate.js"
+import { renderCard, loadingCardsFromServer,  putAndDeletLikeOnSite, deleteCardFromSite } from "./card";
+import { toggleButtonState } from "./validate.js";
+import { patchTheProfile, downloadingUserInformationFromServer, addNewCardToServer, changeAvatar } from './api.js';
+
+export function loadingPageWithUpdateProfileData() {
+  downloadingUserInformationFromServer()
+  .then (data => {
+    profileName.textContent = data.name;
+    profileJob.textContent = data.about;
+    avatarImg.src = data.avatar;
+  });
+}
 
 export function openProfilePopup(popup){
   nameInput.value = profileName.textContent;
@@ -34,13 +51,33 @@ export function openProfilePopup(popup){
   openPopup(popup);
 }
 
+export function openAvatarProfile(popup) {
+  const inputList = Array.from(popupAvatar.querySelectorAll('.popup__input'));
+  const submitButton = popupAvatar.querySelector('.popup__button');
+  toggleButtonState(inputList, submitButton, settingsForValidation);
+  openPopup(popup);
+}
+
 export function changeUserData(evt) {
     evt.preventDefault();
-    const nameInputValue = nameInput.value;
-    const jobInputValue = jobInput.value;
-    profileName.textContent = nameInputValue;
-    profileJob.textContent = jobInputValue;
-    closePopup(popupProfile);
+    const inputList = Array.from(popupProfile.querySelectorAll('.popup__input'));
+    const submitButton = popupProfile.querySelector('.popup__button');
+    renderLoading(true, submitButton);
+    patchTheProfile(nameInput.value, jobInput.value)
+    .then (res => res.json())
+    .then (data => {
+      profileName.textContent = data.name;
+      profileJob.textContent = data.about;
+      nameInput.value = data.name;
+      jobInput.value = data.about;
+    })
+    .then (() => {
+      renderLoading(false, submitButton);
+    })
+    .then (() => {
+      toggleButtonState(inputList, submitButton, settingsForValidation);
+    })
+    .finally (() => closePopup(popupProfile));
 }
 
 export function forSubmitImgHandler(evt) {
@@ -49,8 +86,58 @@ export function forSubmitImgHandler(evt) {
     const linkInputValue = linkInput.value;
     const inputList = Array.from(popupAddNewCard.querySelectorAll('.popup__input'));
     const submitButton = popupAddNewCard.querySelector('.popup__button');
-    renderCard(placeInputValue, linkInputValue);
+    renderLoading(true, submitButton);
+    addNewCardToServer(placeInputValue, linkInputValue)
+    .then (res => res.json())
+    .then (data => {
+      renderCard(data.name, data.link)
+      .then ((result) => {
+        const elementContainer = result.querySelector('.element');
+        const numberOfLikes = elementContainer.querySelector('.element__like-quantity');
+        const trashButton =  elementContainer.querySelector('.element__trash');
+        const likeButton = elementContainer.querySelector('.element__like');
+        const id = data._id;
+        likeButton.addEventListener('click', () => {
+          putAndDeletLikeOnSite(likeButton, numberOfLikes, id);
+        });
+        trashButton.addEventListener('click', () => {
+          deleteCardFromSite(elementContainer, id);
+        });
+      });
+    })
+    .then (() => {
+      renderLoading(false, submitButton);
+    })
+    .then (() => {
+      toggleButtonState(inputList, submitButton, settingsForValidation);
+    })
+    .finally (() => closePopup(popupAddNewCard));
     formPopupFullSizeImage.reset();
-    toggleButtonState(inputList, submitButton, settingsForValidation);
-    closePopup(popupAddNewCard);
 }
+
+export function forSubmitAvatarHandler(evt) {
+    evt.preventDefault();
+    const inputList = Array.from(popupAvatar.querySelectorAll('.popup__input'));
+    const submitButton = popupAvatar.querySelector('.popup__button');
+    renderLoading(true, submitButton);
+    avatarImg.src = inputAvatarLink.value;
+    changeAvatar(inputAvatarLink.value)
+    .then (() => {
+      renderLoading(false, submitButton);
+    })
+    .then (() => {
+      toggleButtonState(inputList, submitButton, settingsForValidation);
+    })
+    .finally (() => closePopup(popupAvatar));
+    popupAvatarForm.reset();
+
+}
+
+function renderLoading(isLoading, submitButton) {
+  if (isLoading) {
+    submitButton.textContent = 'Сохранение...';
+  } else {
+    submitButton.textContent = 'Сохранить';
+  }
+}
+

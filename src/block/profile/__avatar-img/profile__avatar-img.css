@@ -1,22 +1,17 @@
-.profile__avatar {
-    position: relative;
-    cursor: pointer;
+.profile__avatar-img {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
-    grid-row: 1/3;
-    margin-right: 30px;
     border-radius: 50%;
 }
 
 @media all and (max-width: 890px) {
-    .profile__avatar{
+    .profile__avatar-img {
         margin-right: 15px;
     }
 }
 
 @media all and (max-width: 500px) {
-    .profile__avatar{
+    .profile__avatar-img {
         width: 120px;
         height: 120px;
         margin-left: auto;
@@ -28,11 +23,7 @@
 }
 
 @media all and (max-width: 320px) {
-    .profile__avatar{
+    .profile__avatar-img {
         margin-left: 82px;
     }
-}
-
-.profile__avatar:hover {
-    opacity: .8;
 }

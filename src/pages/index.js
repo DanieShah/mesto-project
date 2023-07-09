@@ -1,8 +1,9 @@
 import './index.css';
-import { popupProfile, popupProfileForm, editButton, buttonClosePopupProfile, openProfilePopup, changeUserData, popupAddNewCard, editImgButton, buttonClosePopupFullSizeImage, forSubmitImgHandler, closeFullSizeButton, formPopupFullSizeImage, popupFullSizeImage, popupBox} from '../components/modal.js';
-import { initialCards, renderCard} from '../components/card.js';
+import { avatar, popupAvatar, popupAvatarForm, openAvatarProfile, buttonCloseAvatarPopup, forSubmitAvatarHandler, loadingPageWithUpdateProfileData, popupProfile, popupProfileForm, editButton, buttonClosePopupProfile, openProfilePopup, changeUserData, popupAddNewCard, editImgButton, buttonClosePopupFullSizeImage, forSubmitImgHandler, closeFullSizeButton, formPopupFullSizeImage, popupFullSizeImage, popupBox} from '../components/modal.js';
+import { loadingCardsFromServer, initialCards, loadingCardsFromSever } from '../components/card.js';
 import { openPopup, closePopup} from '../components/utils.js';
-import { enableValidation } from '../components/validate.js'
+import { enableValidation } from '../components/validate.js';
+import { config, endingTheProfile, downloadingUserInformationFromServer, downloadingCardsFromServer, deleteCardsFromServer } from '../components/api.js';
 
 popupProfileForm.addEventListener('submit', changeUserData);
 
@@ -13,15 +14,12 @@ buttonClosePopupProfile.addEventListener('click', () => closePopup(popupProfile)
 editImgButton.addEventListener('click', () => openPopup(popupAddNewCard));
 buttonClosePopupFullSizeImage.addEventListener('click', () => closePopup(popupAddNewCard));
 
-renderCard(initialCards[5].name, initialCards[5].link);
-renderCard(initialCards[4].name, initialCards[4].link);
-renderCard(initialCards[3].name, initialCards[3].link);
-renderCard(initialCards[2].name, initialCards[2].link);
-renderCard(initialCards[1].name, initialCards[1].link);
-renderCard(initialCards[0].name, initialCards[0].link);
-
 formPopupFullSizeImage.addEventListener('submit', forSubmitImgHandler);
 closeFullSizeButton.addEventListener('click', () => closePopup(popupFullSizeImage));
+
+avatar.addEventListener('click', () => openAvatarProfile(popupAvatar));
+popupAvatarForm.addEventListener('submit', forSubmitAvatarHandler);
+buttonCloseAvatarPopup.addEventListener('click', () => closePopup(popupAvatar));
 
 enableValidation({
     formSelector: '.popup__container',
@@ -31,3 +29,6 @@ enableValidation({
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__input-error_active'
   }); 
+
+  loadingCardsFromServer();
+  loadingPageWithUpdateProfileData();
