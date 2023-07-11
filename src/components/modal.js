@@ -32,9 +32,9 @@ export const settingsForValidation = {
 }
 
 import { openPopup, closePopup } from "./utils";
-import { renderCard, loadingCardsFromServer,  putAndDeletLikeOnSite, deleteCardFromSite } from "./card";
+import { renderCard, loadingCardsFromServer,  putAndDeletLikeOnServer, deleteCardFromSite } from "./card";
 import { toggleButtonState } from "./validate.js";
-import { patchTheProfile, downloadingUserInformationFromServer, addNewCardToServer, changeAvatar } from './api.js';
+import { patchTheProfile, downloadingUserInformationFromServer, addNewCardToServer, changeAvatar, deleteCardsFromServer } from './api.js';
 
 export function loadingPageWithUpdateProfileData() {
   downloadingUserInformationFromServer()
@@ -64,7 +64,6 @@ export function changeUserData(evt) {
     const submitButton = popupProfile.querySelector('.popup__button');
     renderLoading(true, submitButton);
     patchTheProfile(nameInput.value, jobInput.value)
-    .then (res => res.json())
     .then (data => {
       profileName.textContent = data.name;
       profileJob.textContent = data.about;
@@ -77,6 +76,9 @@ export function changeUserData(evt) {
     .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
     })
+    .catch((err) => {
+      console.log(err);
+    })
     .finally (() => closePopup(popupProfile));
 }
 
@@ -88,30 +90,27 @@ export function forSubmitImgHandler(evt) {
     const submitButton = popupAddNewCard.querySelector('.popup__button');
     renderLoading(true, submitButton);
     addNewCardToServer(placeInputValue, linkInputValue)
-    .then (res => res.json())
     .then (data => {
-      renderCard(data.name, data.link)
-      .then ((result) => {
-        const elementContainer = result.querySelector('.element');
-        const numberOfLikes = elementContainer.querySelector('.element__like-quantity');
-        const trashButton =  elementContainer.querySelector('.element__trash');
-        const likeButton = elementContainer.querySelector('.element__like');
-        const id = data._id;
-        likeButton.addEventListener('click', () => {
-          putAndDeletLikeOnSite(likeButton, numberOfLikes, id);
-        });
-        trashButton.addEventListener('click', () => {
-          deleteCardFromSite(elementContainer, id);
-        });
+      renderCard(data.name, data.link);
+      const numberOfLikes = document.querySelector('.element__like-quantity');
+      const trashButton =  document.querySelector('.element__trash');
+      const likeButton = document.querySelector('.element__like');
+      trashButton.addEventListener('click',() => {
+        deleteCardsFromServer(data._id);
+      });
+  
+      likeButton.addEventListener('click', () => {
+        putAndDeletLikeOnServer(likeButton, numberOfLikes, data._id);
       });
     })
     .then (() => {
-      renderLoading(false, submitButton);
-    })
-    .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
+      closePopup(popupAddNewCard)
     })
-    .finally (() => closePopup(popupAddNewCard));
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally (() => renderLoading(false, submitButton));
     formPopupFullSizeImage.reset();
 }
 
@@ -123,12 +122,13 @@ export function forSubmitAvatarHandler(evt) {
     avatarImg.src = inputAvatarLink.value;
     changeAvatar(inputAvatarLink.value)
     .then (() => {
-      renderLoading(false, submitButton);
-    })
-    .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
+      closePopup(popupAvatar);
     })
-    .finally (() => closePopup(popupAvatar));
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally (() => renderLoading(false, submitButton));
     popupAvatarForm.reset();
 
 }

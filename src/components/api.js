@@ -1,4 +1,5 @@
-import { renderCard } from './card.js'
+import { renderCard } from './card.js';
+import { checkResponse } from './utils.js';
 
 export const config = {
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
@@ -14,12 +15,7 @@ export const downloadingUserInformationFromServer = () => {
             authorization: config.headers.authorization
         }
     })
-    .then((res) => {
-        return res.json();
-    })
-    .catch((err) => {
-        console.log(`Ошибка ${err.status}`);
-    });
+    .then(checkResponse);
 };
 
 export const downloadingCardsFromServer = () => {
@@ -28,12 +24,7 @@ export const downloadingCardsFromServer = () => {
     authorization: config.headers.authorization
   }
 })
-  .then(res => {
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+    .then(checkResponse);
 };
 
 export const patchTheProfile = (userName, userJob) => {
@@ -47,7 +38,8 @@ export const patchTheProfile = (userName, userJob) => {
             name: userName,
             about: userJob
           })
-      });
+      })
+      .then(checkResponse);
 }
 
 export const addNewCardToServer = (placeName, placeLink) => {
@@ -61,7 +53,8 @@ export const addNewCardToServer = (placeName, placeLink) => {
         name: placeName,
         link: placeLink
       })
-  });
+  })
+  .then(checkResponse);
 }
 
 export const deleteCardsFromServer = (cardsId) => {
@@ -70,7 +63,8 @@ export const deleteCardsFromServer = (cardsId) => {
     headers: {
       authorization: config.headers.authorization
     }
-  });
+  })
+  .then(checkResponse);
 }
 
 export const purLikeOnCard = (cardsId) => {
@@ -79,7 +73,8 @@ export const purLikeOnCard = (cardsId) => {
     headers: {
       authorization: config.headers.authorization
     }
-  });
+  })
+  .then(checkResponse);
 }
 
 export const deleteLikeOnCard = (cardsId) => {
@@ -88,7 +83,8 @@ export const deleteLikeOnCard = (cardsId) => {
     headers: {
       authorization: config.headers.authorization
     }
-  });
+  })
+  .then(checkResponse);
 }
 
 export const changeAvatar = (avatarLink) => {
@@ -101,5 +97,6 @@ export const changeAvatar = (avatarLink) => {
     body: JSON.stringify({
         avatar: avatarLink
       })
-  });
+  })
+  .then(checkResponse);
 }

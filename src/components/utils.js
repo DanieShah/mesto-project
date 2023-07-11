@@ -20,7 +20,13 @@ function closingPopupByPressingEscButton (evt) {
 function closingPopupByClickOnOverlay (evt) {
     const popup = document.querySelector('.popup_opened');
     if (evt.currentTarget === evt.target) {
-        const popup = document.querySelector('.popup_opened');
-        closePopup(popup);
+        closePopup(evt.target);
     }
 };
+
+export function checkResponse(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+}
