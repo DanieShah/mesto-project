@@ -91,17 +91,17 @@ export function forSubmitImgHandler(evt) {
     renderLoading(true, submitButton);
     addNewCardToServer(placeInputValue, linkInputValue)
     .then (data => {
-      renderCard(data.name, data.link);
-      const numberOfLikes = document.querySelector('.element__like-quantity');
-      const trashButton =  document.querySelector('.element__trash');
-      const likeButton = document.querySelector('.element__like');
-      trashButton.addEventListener('click',() => {
-        deleteCardsFromServer(data._id);
-      });
+      renderCard(data.name, data.link, data._id);
+      // const numberOfLikes = document.querySelector('.element__like-quantity');
+      // const trashButton =  document.querySelector('.element__trash');
+      // const likeButton = document.querySelector('.element__like');
+      // trashButton.addEventListener('click',() => {
+      //   deleteCardsFromServer(data._id);
+      // });
   
-      likeButton.addEventListener('click', () => {
-        putAndDeletLikeOnServer(likeButton, numberOfLikes, data._id);
-      });
+      // likeButton.addEventListener('click', () => {
+      //   putAndDeletLikeOnServer(likeButton, numberOfLikes, data._id);
+      // });
     })
     .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
@@ -119,9 +119,9 @@ export function forSubmitAvatarHandler(evt) {
     const inputList = Array.from(popupAvatar.querySelectorAll('.popup__input'));
     const submitButton = popupAvatar.querySelector('.popup__button');
     renderLoading(true, submitButton);
-    avatarImg.src = inputAvatarLink.value;
     changeAvatar(inputAvatarLink.value)
     .then (() => {
+      avatarImg.src = inputAvatarLink.value;
       toggleButtonState(inputList, submitButton, settingsForValidation);
       closePopup(popupAvatar);
     })

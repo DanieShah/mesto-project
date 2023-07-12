@@ -18,7 +18,6 @@ function closingPopupByPressingEscButton (evt) {
 };
 
 function closingPopupByClickOnOverlay (evt) {
-    const popup = document.querySelector('.popup_opened');
     if (evt.currentTarget === evt.target) {
         closePopup(evt.target);
     }

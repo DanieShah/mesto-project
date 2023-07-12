@@ -6,11 +6,12 @@ export const bigImage = document.querySelector('.popup__image');
 export const titlePopupFullSizeImage = document.querySelector('.popup__signa');
 
 
-export function addElements(nameElement, linkElement) {
+export function addElements(nameElement, linkElement, id) {
     const elementTemplate = document.querySelector('#element').content;
     const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
     const trashButton =  elementContainer.querySelector('.element__trash');
     const likeButton = elementContainer.querySelector('.element__like');
+    const numberOfLikes = elementContainer.querySelector('.element__like-quantity');
     const profName = document.querySelector('.profile__name');
     elementContainer.querySelector('.element__img').src = linkElement;
     elementContainer.querySelector('.element__img').alt = nameElement;
@@ -20,13 +21,14 @@ export function addElements(nameElement, linkElement) {
     // Удаляем карточку
 
     trashButton.addEventListener('click',() => {
-        deleteCardFromSite(elementContainer);
+        deleteCardsFromServer(id)
+        .then(() => elementContainer.remove());
     });
 
     // Добавляем лайки
 
     likeButton.addEventListener('click', () => {
-         putAndDeletLikeOnSite(likeButton);
+        putAndDeletLikeOnServer(likeButton, numberOfLikes, id)
     });
 
     // Проверяем наличие пользовательского лайка на карточке
@@ -50,8 +52,8 @@ export function addElements(nameElement, linkElement) {
     return elementContainer;
 }
 
-export function renderCard(nameElement, linkElement) {
-    elementsContainer.prepend(addElements(nameElement, linkElement));
+export function renderCard(nameElement, linkElement, id) {
+    elementsContainer.prepend(addElements(nameElement, linkElement, id));
     return Promise.resolve(elementsContainer);
 }
 
@@ -92,22 +94,23 @@ export function renderCard(nameElement, linkElement) {
 //       });
 // }
 
-export function putAndDeletLikeOnSite(likeButton) {
-    if (likeButton.classList.contains('element__like_active')) {
-        likeButton.classList.remove('element__like_active');
-    } else {
-        likeButton.classList.add('element__like_active');
-    }
-}
+// export function putAndDeletLikeOnSite(likeButton) {
+//     if (likeButton.classList.contains('element__like_active')) {
+//         likeButton.classList.remove('element__like_active');
+//     } else {
+//         likeButton.classList.add('element__like_active');
+//     }
+// }
 
-export function deleteCardFromSite(elementContainer) {
-    elementContainer.remove();
-}
+// export function deleteCardFromSite(elementContainer) {
+//     elementContainer.remove();
+// }
 
 export function putAndDeletLikeOnServer(likeButton, numberOfLikes, id) {
-    if (!   likeButton.classList.contains('element__like_active')) {
+    if (likeButton.classList.contains('element__like_active')) {
         deleteLikeOnCard(id)
         .then(data => {
+            likeButton.classList.remove('element__like_active');
             numberOfLikes.textContent = data.likes.length; 
         })
         .catch((err) => {
@@ -116,6 +119,7 @@ export function putAndDeletLikeOnServer(likeButton, numberOfLikes, id) {
     } else {
         purLikeOnCard(id)
         .then(data => {
+            likeButton.classList.add('element__like_active');
             numberOfLikes.textContent = data.likes.length; 
         })
         .catch((err) => {

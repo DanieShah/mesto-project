@@ -37,8 +37,8 @@ enableValidation({
 
   Promise.all([downloadingUserInformationFromServer(), downloadingCardsFromServer()])
   .then ((res) => {
-    let userData = res[0];
-    let cards = res[1];
+    const userData = res[0];
+    const cards = res[1];
     return [userData, cards]
   })
   .then(([userData, cards]) => {
@@ -48,7 +48,7 @@ enableValidation({
     userId = userData._id;
     
     cards.forEach((el) => {
-      renderCard(el.name, el.link);
+      renderCard(el.name, el.link, el._id);
       const elementContainer = document.querySelector('.element');
       const numberOfLikes = elementContainer.querySelector('.element__like-quantity');
       const trashButton =  elementContainer.querySelector('.element__trash');
@@ -59,14 +59,6 @@ enableValidation({
       if (el.owner._id !== userId) {
           trashButton.remove();
       }
-
-      trashButton.addEventListener('click',() => {
-        deleteCardsFromServer(el._id);
-      });
-  
-      likeButton.addEventListener('click', () => {
-        putAndDeletLikeOnServer(likeButton, numberOfLikes, el._id);
-      });
 
       cheackingUserLikeOnCard(el, profileName, likeButton); 
     });
