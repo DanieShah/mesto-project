@@ -92,16 +92,6 @@ export function forSubmitImgHandler(evt) {
     addNewCardToServer(placeInputValue, linkInputValue)
     .then (data => {
       renderCard(data.name, data.link, data._id);
-      // const numberOfLikes = document.querySelector('.element__like-quantity');
-      // const trashButton =  document.querySelector('.element__trash');
-      // const likeButton = document.querySelector('.element__like');
-      // trashButton.addEventListener('click',() => {
-      //   deleteCardsFromServer(data._id);
-      // });
-  
-      // likeButton.addEventListener('click', () => {
-      //   putAndDeletLikeOnServer(likeButton, numberOfLikes, data._id);
-      // });
     })
     .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
