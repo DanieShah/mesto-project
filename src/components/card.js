@@ -22,7 +22,10 @@ export function addElements(nameElement, linkElement, id) {
 
     trashButton.addEventListener('click',() => {
         deleteCardsFromServer(id)
-        .then(() => elementContainer.remove());
+        .then(() => elementContainer.remove())
+        .catch((err) => {
+            console.log(err);
+        });
     });
 
     // Добавляем лайки

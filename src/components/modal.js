@@ -42,7 +42,10 @@ export function loadingPageWithUpdateProfileData() {
     profileName.textContent = data.name;
     profileJob.textContent = data.about;
     avatarImg.src = data.avatar;
-  });
+  })
+  .catch((err) => {
+    console.log(err);
+});
 }
 
 export function openProfilePopup(popup){
@@ -71,15 +74,13 @@ export function changeUserData(evt) {
       jobInput.value = data.about;
     })
     .then (() => {
-      renderLoading(false, submitButton);
-    })
-    .then (() => {
       toggleButtonState(inputList, submitButton, settingsForValidation);
+      closePopup(popupProfile);
     })
     .catch((err) => {
       console.log(err);
     })
-    .finally (() => closePopup(popupProfile));
+    .finally (() => renderLoading(false, submitButton));
 }
 
 export function forSubmitImgHandler(evt) {
